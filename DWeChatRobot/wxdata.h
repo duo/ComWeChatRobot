@@ -69,6 +69,10 @@ struct ReceiveMsgStruct {
     DWORD l_filepath;
     wchar_t* time;
     DWORD l_time;
+    DWORD timestamp;
+    unsigned __int64 srvid;
+    wchar_t* thumbpath;
+    DWORD l_thumbpath;
     ~ReceiveMsgStruct() {
         if (this->sender)
             delete[] this->sender;
@@ -80,6 +84,8 @@ struct ReceiveMsgStruct {
             delete[] this->filepath;
         if (this->time)
             delete[] this->time;
+        if (this->thumbpath)
+            delete[] this->thumbpath;
     }
 };
 

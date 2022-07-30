@@ -1,3 +1,42 @@
+# Octopus Wechat Slave
+Wechat 从端 (修改自 [ljc545w/ComWeChatRobot](https://github.com/ljc545w/ComWeChatRobot))
+
+## 依赖
+```
+vcpkg install protobuf:x86-windows-static
+```
+
+## 配置
+* conf.json
+```json5
+{
+    "host": "ws://127.0.0.1:9527", // 主端地址
+    "blacklist": [] // 黑名单列表
+}
+```
+
+## 运行
+```
+将 conf.json, DWeChatRobot.dll, WeChatTools.exe 置于同个目录
+```
+
+## 特性
+* 会话类型
+  - [x] 私聊
+  - [x] 群聊
+  
+* 消息类型
+  - [x] 文本
+  - [x] 图片
+  - [x] 表情
+  - [ ] 语音
+  - [x] 视频
+  - [x] 文件
+
+***
+***原版说明分割线***
+***
+
 # 描述
 PC微信机器人，实现以下功能：
 1. 获取通讯录  

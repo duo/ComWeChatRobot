@@ -28,6 +28,7 @@
 #include "SetChatRoomSelfNickname.h"
 #include "SetChatRoomName.h"
 #include "GetChatRoomMemberNickname.h"
+#include "Octopus.h"
 
 using namespace std;
 #pragma comment(lib,"version.lib")

@@ -44,7 +44,8 @@ void SaveImageMsg(unsigned char* buffer, int length, DWORD msgHandle) {
 	else {
 		lstrcpy(postfix, L"");
 	}
-	wstring filepath = savepath + filename + postfix;
+	//wstring filepath = savepath + filename + postfix;
+	wstring filepath = savepath + filename;
 	HANDLE hFile = CreateFile(filepath.c_str(), GENERIC_ALL, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
@@ -82,6 +83,21 @@ void __stdcall HookImageMsg() {
 	char settime[] = "00:00-00:00";
 	DWORD AutoDownloadTimeSettingAddr = GetWeChatWinBase() + AutoDownloadTimeSettingOffset;
 	WriteProcessMemory(GetCurrentProcess(), (LPVOID)AutoDownloadTimeSettingAddr, settime, strlen(settime) + 1, 0);
+
+	// video auto
+	BYTE nopVideo[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+	DWORD nopVideoAddr = WeChatWinBase + 0x48CE1B;
+	WriteProcessMemory(GetCurrentProcess(), (LPVOID)nopVideoAddr, &nopVideo, sizeof(nopVideo), 0);
+
+	// image auto
+	BYTE nopImg[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+	DWORD nopImgAddr = WeChatWinBase + 0x48D56B;
+	WriteProcessMemory(GetCurrentProcess(), (LPVOID)nopImgAddr, &nopImg, sizeof(nopImg), 0);
+
+	//char flag[] = { 1 };
+	//DWORD VideoAddr = WeChatWinBase + 0x4B53AC;
+	//WriteProcessMemory(GetCurrentProcess(), (LPVOID)VideoAddr, flag, 1, 0);
+
 	ImageMsgHooked = true;
 }
 

@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package octopus;
+
+message Binary {
+    string mime = 1;
+    string md5 = 2;
+    bytes blob = 3;
+}
+
+message Photo {
+    Binary bin = 1;
+}
+
+message Video {
+    Binary bin = 1;
+}
+
+message File {
+    Binary bin = 1;
+    string name = 2;
+}
+
+message Voice {
+    Binary bin = 1;
+}
+
+message Sticker {
+    Binary bin = 1;
+}
+
+message Location {
+    double longitude = 1;
+    double latitude = 2;
+}
+
+message Link {
+    string title = 1;
+    string description = 2;
+    string url = 3;
+}
+
+message User {
+    string uid = 1;
+    string username = 2;
+    string remark = 3;
+}
+
+message Chat {
+    string uid = 1;
+    ChatType type = 2;
+    string title = 3;
+
+    enum ChatType {
+        PRIVATE = 0;
+        GROUP = 1;
+    }
+}
+
+message Message {
+    int64 message_id = 1;
+    int64 date = 2;
+    int64 edit_date = 3;
+    User from = 4;
+    Chat Chat = 5;
+    string text = 6;
+
+    MessageType type = 99;
+
+    repeated Photo photos = 100;
+    Video video = 101;
+    File file = 102;
+    Voice voice = 103;
+    Sticker sticker = 104;
+    Location location = 105;
+    Link link = 106;
+
+    enum MessageType {
+        TEXT = 0;
+        PHOTO = 1;
+        VIDEO = 2;
+        FILE = 3;
+        VOICE = 4;
+        STICKER = 5;
+        LOCATION = 6;
+        LINK = 7;
+    }
+}
+
+message Vendor {
+    string uid = 1;
+    string type = 2;
+}
+
+message Payload {
+    string uid = 1;
+    Vendor vendor = 2;
+
+    PayloadType type = 3;
+
+    repeated Chat chats = 4;
+    Message message = 5;
+
+    enum PayloadType {
+        CHATS = 0;
+        MESSAGE = 1;
+    }
+}

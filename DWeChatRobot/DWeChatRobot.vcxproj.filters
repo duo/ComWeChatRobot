@@ -115,6 +115,9 @@
     <Filter Include="群相关\获取群成员昵称">
       <UniqueIdentifier>{cb62e2bc-3505-49dd-9b35-def28c95ff8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="octopus">
+      <UniqueIdentifier>{20126a91-9e5b-4277-90ef-e6ad15734fc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -221,6 +224,12 @@
     </ClInclude>
     <ClInclude Include="GetChatRoomMemberNickname.h">
       <Filter>群相关\获取群成员昵称</Filter>
+    </ClInclude>
+    <ClInclude Include="Misc.h">
+      <Filter>octopus</Filter>
+    </ClInclude>
+    <ClInclude Include="Octopus.h">
+      <Filter>octopus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +343,12 @@
     </ClCompile>
     <ClCompile Include="GetChatRoomMemberNickname.cpp">
       <Filter>群相关\获取群成员昵称</Filter>
+    </ClCompile>
+    <ClCompile Include="Misc.cpp">
+      <Filter>octopus</Filter>
+    </ClCompile>
+    <ClCompile Include="Octopus.cpp">
+      <Filter>octopus</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

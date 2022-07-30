@@ -22,3 +22,12 @@ DWORD GetWeChatRobotBase();
 
 #define dllname L"DWeChatRobot.dll"
 #define SendImageOffset 0x000110BE
+
+#define confname "conf.json"
+
+const std::wstring GetWeChatInstallDir();
+const std::string ReadConf(const std::string&);
+BOOL closeMutant(DWORD pid);
+BOOL IsWxLogin(DWORD dwPid);
+void StartOctopus(DWORD dwPid, const char* addr);
+void StopOctopus(DWORD dwPid);

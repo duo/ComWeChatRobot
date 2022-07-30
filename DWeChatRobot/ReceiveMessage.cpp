@@ -197,6 +197,16 @@ static void dealMessage(DWORD messageAddr) {
 	ZeroMemory(message->filepath, (length + 1) * 2);
 	memcpy(message->filepath, (wchar_t*)(*(DWORD*)(messageAddr + 0x1AC)), length * 2);
 	message->l_filepath = length;
+
+	message->timestamp = *(DWORD*)(messageAddr + 0x44);
+	message->srvid = *(unsigned __int64*)(messageAddr + 0x30);
+
+	length = *(DWORD*)(messageAddr + 0x198 + 0x4);
+	message->thumbpath = new wchar_t[length + 1];
+	ZeroMemory(message->thumbpath, (length + 1) * 2);
+	memcpy(message->thumbpath, (wchar_t*)(*(DWORD*)(messageAddr + 0x198)), length * 2);
+	message->l_thumbpath = length;
+
 #ifdef USE_COM
 	// 通过连接点，将消息广播给客户端
 	SAFEARRAY* psaValue = CreateMessageArray(message);
@@ -205,10 +215,14 @@ static void dealMessage(DWORD messageAddr) {
 	V_ARRAY(&vsaValue) = psaValue;
 	PostComMessage(WX_MESSAGE,&vsaValue);
 #endif
+	/*
 	HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)SendSocketMessage, message, NULL, 0);
 	if (hThread) {
 		CloseHandle(hThread);
 	}
+	*/
+
+	ForwardMsg(message);
 }
 
 /*
@@ -275,7 +289,7 @@ VOID HookReceiveMessage(int port) {
 	SendMessageNextCall = WeChatWinBase + SendMessageNextCallOffset;
 	SendMessageJmpBackAddress = SendMessageHookAddress + 0x5;
 	HookAnyAddress(ReceiveMessageHookAddress,(LPVOID)dealReceiveMessage,OldReceiveMessageAsmCode);
-	HookAnyAddress(SendMessageHookAddress, (LPVOID)dealSendMessage, OldSendMessageAsmCode);
+	//HookAnyAddress(SendMessageHookAddress, (LPVOID)dealSendMessage, OldSendMessageAsmCode);
 	ReceiveMessageHooked = TRUE;
 }
 
@@ -288,6 +302,6 @@ VOID UnHookReceiveMessage() {
 	if (!ReceiveMessageHooked)
 		return;
 	UnHookAnyAddress(ReceiveMessageHookAddress,OldReceiveMessageAsmCode);
-	UnHookAnyAddress(SendMessageHookAddress, OldSendMessageAsmCode);
+	//UnHookAnyAddress(SendMessageHookAddress, OldSendMessageAsmCode);
 	ReceiveMessageHooked = FALSE;
 }
