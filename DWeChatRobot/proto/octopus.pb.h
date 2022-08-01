@@ -2078,6 +2078,7 @@ class Message final :
     kTextFieldNumber = 6,
     kFromFieldNumber = 4,
     kChatFieldNumber = 5,
+    kReplyToMessageFieldNumber = 7,
     kVideoFieldNumber = 101,
     kFileFieldNumber = 102,
     kVoiceFieldNumber = 103,
@@ -2156,6 +2157,24 @@ class Message final :
   void unsafe_arena_set_allocated_chat(
       ::octopus::Chat* chat);
   ::octopus::Chat* unsafe_arena_release_chat();
+
+  // .octopus.Message reply_to_message = 7;
+  bool has_reply_to_message() const;
+  private:
+  bool _internal_has_reply_to_message() const;
+  public:
+  void clear_reply_to_message();
+  const ::octopus::Message& reply_to_message() const;
+  PROTOBUF_NODISCARD ::octopus::Message* release_reply_to_message();
+  ::octopus::Message* mutable_reply_to_message();
+  void set_allocated_reply_to_message(::octopus::Message* reply_to_message);
+  private:
+  const ::octopus::Message& _internal_reply_to_message() const;
+  ::octopus::Message* _internal_mutable_reply_to_message();
+  public:
+  void unsafe_arena_set_allocated_reply_to_message(
+      ::octopus::Message* reply_to_message);
+  ::octopus::Message* unsafe_arena_release_reply_to_message();
 
   // .octopus.Video video = 101;
   bool has_video() const;
@@ -2313,6 +2332,7 @@ class Message final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr text_;
     ::octopus::User* from_;
     ::octopus::Chat* chat_;
+    ::octopus::Message* reply_to_message_;
     ::octopus::Video* video_;
     ::octopus::File* file_;
     ::octopus::Voice* voice_;
@@ -4200,6 +4220,96 @@ inline void Message::set_allocated_text(std::string* text) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:octopus.Message.text)
+}
+
+// .octopus.Message reply_to_message = 7;
+inline bool Message::_internal_has_reply_to_message() const {
+  return this != internal_default_instance() && _impl_.reply_to_message_ != nullptr;
+}
+inline bool Message::has_reply_to_message() const {
+  return _internal_has_reply_to_message();
+}
+inline void Message::clear_reply_to_message() {
+  if (GetArenaForAllocation() == nullptr && _impl_.reply_to_message_ != nullptr) {
+    delete _impl_.reply_to_message_;
+  }
+  _impl_.reply_to_message_ = nullptr;
+}
+inline const ::octopus::Message& Message::_internal_reply_to_message() const {
+  const ::octopus::Message* p = _impl_.reply_to_message_;
+  return p != nullptr ? *p : reinterpret_cast<const ::octopus::Message&>(
+      ::octopus::_Message_default_instance_);
+}
+inline const ::octopus::Message& Message::reply_to_message() const {
+  // @@protoc_insertion_point(field_get:octopus.Message.reply_to_message)
+  return _internal_reply_to_message();
+}
+inline void Message::unsafe_arena_set_allocated_reply_to_message(
+    ::octopus::Message* reply_to_message) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.reply_to_message_);
+  }
+  _impl_.reply_to_message_ = reply_to_message;
+  if (reply_to_message) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:octopus.Message.reply_to_message)
+}
+inline ::octopus::Message* Message::release_reply_to_message() {
+  
+  ::octopus::Message* temp = _impl_.reply_to_message_;
+  _impl_.reply_to_message_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::octopus::Message* Message::unsafe_arena_release_reply_to_message() {
+  // @@protoc_insertion_point(field_release:octopus.Message.reply_to_message)
+  
+  ::octopus::Message* temp = _impl_.reply_to_message_;
+  _impl_.reply_to_message_ = nullptr;
+  return temp;
+}
+inline ::octopus::Message* Message::_internal_mutable_reply_to_message() {
+  
+  if (_impl_.reply_to_message_ == nullptr) {
+    auto* p = CreateMaybeMessage<::octopus::Message>(GetArenaForAllocation());
+    _impl_.reply_to_message_ = p;
+  }
+  return _impl_.reply_to_message_;
+}
+inline ::octopus::Message* Message::mutable_reply_to_message() {
+  ::octopus::Message* _msg = _internal_mutable_reply_to_message();
+  // @@protoc_insertion_point(field_mutable:octopus.Message.reply_to_message)
+  return _msg;
+}
+inline void Message::set_allocated_reply_to_message(::octopus::Message* reply_to_message) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.reply_to_message_;
+  }
+  if (reply_to_message) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(reply_to_message);
+    if (message_arena != submessage_arena) {
+      reply_to_message = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, reply_to_message, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.reply_to_message_ = reply_to_message;
+  // @@protoc_insertion_point(field_set_allocated:octopus.Message.reply_to_message)
 }
 
 // .octopus.Message.MessageType type = 99;

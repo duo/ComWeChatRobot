@@ -446,18 +446,19 @@ void Octopus::Forward(ReceiveMsgStruct* msg) {
             }
             case 0x39: { // ref
                 std::wstring content;
+                std::wstring reply;
 
                 pugi::xpath_node title_node = doc.select_node(PUGIXML_TEXT("/msg/appmsg/title"));
                 if (title_node) {
                     content += title_node.node().text().as_string();
                 }
 
-                content += L"\n- - - - - - - - - - - - - - -\n「";
+                reply += L"\n- - - - - - - - - - - - - - -\n「";
 
                 pugi::xpath_node name_node = doc.select_node(PUGIXML_TEXT("/msg/appmsg/refermsg/displayname"));
                 if (name_node) {
-                    content += name_node.node().text().as_string();
-                    content += L"：";
+                    reply += name_node.node().text().as_string();
+                    reply += L"：";
                 }
 
                 pugi::xpath_node ref_type_node = doc.select_node(PUGIXML_TEXT("/msg/appmsg/refermsg/type"));
@@ -467,36 +468,48 @@ void Octopus::Forward(ReceiveMsgStruct* msg) {
                     case 0x1: {
                         pugi::xpath_node content_node = doc.select_node(PUGIXML_TEXT("/msg/appmsg/refermsg/content"));
                         if (content_node) {
-                            content += content_node.node().text().as_string();
+                            reply += content_node.node().text().as_string();
                         }
                         break;
                     }
                     case 0x3:
-                        content += L"[图片]";
+                        reply += L"[图片]";
                         break;
                     case 0x22:
-                        content += L"[语音]";
+                        reply += L"[语音]";
                         break;
                     case 0x2B:
-                        content += L"[视频]";
+                        reply += L"[视频]";
                         break;
                     case 0x2F:
-                        content += L"[表情]";
+                        reply += L"[表情]";
                         break;
                     case 0x30:
-                        content += L"[位置]";
+                        reply += L"[位置]";
                         break;
                     case 0x31:
-                        content += L"[程序]";
+                        reply += L"[程序]";
                         break;
                     default:
                         break;
                     }
                 }
 
-                content += L"」";
+                reply += L"」";
 
-                message->set_text(as_utf8(content));
+                pugi::xpath_node srvid_node = doc.select_node(PUGIXML_TEXT("/msg/appmsg/refermsg/svrid"));
+                if (srvid_node) {
+                    Message* replyMessage = message->mutable_reply_to_message();
+                    replyMessage->set_message_id(srvid_node.node().text().as_ullong());
+                    replyMessage->set_text(as_utf8(reply));
+                }
+
+                if (message->has_reply_to_message()) {
+                    message->set_text(as_utf8(content));
+                }
+                else {
+                    message->set_text(as_utf8(content + reply));
+                }
 
                 break;
             }
