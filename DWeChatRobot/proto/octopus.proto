@@ -65,6 +65,8 @@ message Message {
     Chat Chat = 5;
     string text = 6;
 
+    Message reply_to_message  = 7;
+
     MessageType type = 99;
 
     repeated Photo photos = 100;
@@ -87,6 +89,10 @@ message Message {
     }
 }
 
+message Handshake {
+    string secret = 1;
+}
+
 message Vendor {
     string uid = 1;
     string type = 2;
@@ -98,11 +104,13 @@ message Payload {
 
     PayloadType type = 3;
 
-    repeated Chat chats = 4;
-    Message message = 5;
+    Handshake handshake = 4;
+    repeated Chat chats = 5;
+    Message message = 6;
 
     enum PayloadType {
-        CHATS = 0;
-        MESSAGE = 1;
+        HANDSHAKE = 0;
+        CHATS = 1;
+        MESSAGE = 2;
     }
 }

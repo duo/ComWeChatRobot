@@ -188,6 +188,19 @@ struct MessageDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MessageDefaultTypeInternal _Message_default_instance_;
+PROTOBUF_CONSTEXPR Handshake::Handshake(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.secret_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct HandshakeDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR HandshakeDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~HandshakeDefaultTypeInternal() {}
+  union {
+    Handshake _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HandshakeDefaultTypeInternal _Handshake_default_instance_;
 PROTOBUF_CONSTEXPR Vendor::Vendor(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.uid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -207,6 +220,7 @@ PROTOBUF_CONSTEXPR Payload::Payload(
     /*decltype(_impl_.chats_)*/{}
   , /*decltype(_impl_.uid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.vendor_)*/nullptr
+  , /*decltype(_impl_.handshake_)*/nullptr
   , /*decltype(_impl_.message_)*/nullptr
   , /*decltype(_impl_.type_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -220,7 +234,7 @@ struct PayloadDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PayloadDefaultTypeInternal _Payload_default_instance_;
 }  // namespace octopus
-static ::_pb::Metadata file_level_metadata_octopus_2eproto[13];
+static ::_pb::Metadata file_level_metadata_octopus_2eproto[14];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_octopus_2eproto[3];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_octopus_2eproto = nullptr;
 
@@ -327,6 +341,13 @@ const uint32_t TableStruct_octopus_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   PROTOBUF_FIELD_OFFSET(::octopus::Message, _impl_.location_),
   PROTOBUF_FIELD_OFFSET(::octopus::Message, _impl_.link_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::octopus::Handshake, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::octopus::Handshake, _impl_.secret_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::octopus::Vendor, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -343,6 +364,7 @@ const uint32_t TableStruct_octopus_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   PROTOBUF_FIELD_OFFSET(::octopus::Payload, _impl_.uid_),
   PROTOBUF_FIELD_OFFSET(::octopus::Payload, _impl_.vendor_),
   PROTOBUF_FIELD_OFFSET(::octopus::Payload, _impl_.type_),
+  PROTOBUF_FIELD_OFFSET(::octopus::Payload, _impl_.handshake_),
   PROTOBUF_FIELD_OFFSET(::octopus::Payload, _impl_.chats_),
   PROTOBUF_FIELD_OFFSET(::octopus::Payload, _impl_.message_),
 };
@@ -358,8 +380,9 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 62, -1, -1, sizeof(::octopus::User)},
   { 71, -1, -1, sizeof(::octopus::Chat)},
   { 80, -1, -1, sizeof(::octopus::Message)},
-  { 101, -1, -1, sizeof(::octopus::Vendor)},
-  { 109, -1, -1, sizeof(::octopus::Payload)},
+  { 101, -1, -1, sizeof(::octopus::Handshake)},
+  { 108, -1, -1, sizeof(::octopus::Vendor)},
+  { 116, -1, -1, sizeof(::octopus::Payload)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -374,6 +397,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::octopus::_User_default_instance_._instance,
   &::octopus::_Chat_default_instance_._instance,
   &::octopus::_Message_default_instance_._instance,
+  &::octopus::_Handshake_default_instance_._instance,
   &::octopus::_Vendor_default_instance_._instance,
   &::octopus::_Payload_default_instance_._instance,
 };
@@ -406,20 +430,22 @@ const char descriptor_table_protodef_octopus_2eproto[] PROTOBUF_SECTION_VARIABLE
   "octopus.Location\022\033\n\004link\030j \001(\0132\r.octopus"
   ".Link\"g\n\013MessageType\022\010\n\004TEXT\020\000\022\t\n\005PHOTO\020"
   "\001\022\t\n\005VIDEO\020\002\022\010\n\004FILE\020\003\022\t\n\005VOICE\020\004\022\013\n\007STI"
-  "CKER\020\005\022\014\n\010LOCATION\020\006\022\010\n\004LINK\020\007\"#\n\006Vendor"
-  "\022\013\n\003uid\030\001 \001(\t\022\014\n\004type\030\002 \001(\t\"\313\001\n\007Payload\022"
-  "\013\n\003uid\030\001 \001(\t\022\037\n\006vendor\030\002 \001(\0132\017.octopus.V"
-  "endor\022*\n\004type\030\003 \001(\0162\034.octopus.Payload.Pa"
-  "yloadType\022\034\n\005chats\030\004 \003(\0132\r.octopus.Chat\022"
-  "!\n\007message\030\005 \001(\0132\020.octopus.Message\"%\n\013Pa"
-  "yloadType\022\t\n\005CHATS\020\000\022\013\n\007MESSAGE\020\001b\006proto"
-  "3"
+  "CKER\020\005\022\014\n\010LOCATION\020\006\022\010\n\004LINK\020\007\"\033\n\tHandsh"
+  "ake\022\016\n\006secret\030\001 \001(\t\"#\n\006Vendor\022\013\n\003uid\030\001 \001"
+  "(\t\022\014\n\004type\030\002 \001(\t\"\201\002\n\007Payload\022\013\n\003uid\030\001 \001("
+  "\t\022\037\n\006vendor\030\002 \001(\0132\017.octopus.Vendor\022*\n\004ty"
+  "pe\030\003 \001(\0162\034.octopus.Payload.PayloadType\022%"
+  "\n\thandshake\030\004 \001(\0132\022.octopus.Handshake\022\034\n"
+  "\005chats\030\005 \003(\0132\r.octopus.Chat\022!\n\007message\030\006"
+  " \001(\0132\020.octopus.Message\"4\n\013PayloadType\022\r\n"
+  "\tHANDSHAKE\020\000\022\t\n\005CHATS\020\001\022\013\n\007MESSAGE\020\002b\006pr"
+  "oto3"
   ;
 static ::_pbi::once_flag descriptor_table_octopus_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_octopus_2eproto = {
-    false, false, 1361, descriptor_table_protodef_octopus_2eproto,
+    false, false, 1444, descriptor_table_protodef_octopus_2eproto,
     "octopus.proto",
-    &descriptor_table_octopus_2eproto_once, nullptr, 0, 13,
+    &descriptor_table_octopus_2eproto_once, nullptr, 0, 14,
     schemas, file_default_instances, TableStruct_octopus_2eproto::offsets,
     file_level_metadata_octopus_2eproto, file_level_enum_descriptors_octopus_2eproto,
     file_level_service_descriptors_octopus_2eproto,
@@ -493,6 +519,7 @@ bool Payload_PayloadType_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
+    case 2:
       return true;
     default:
       return false;
@@ -500,6 +527,7 @@ bool Payload_PayloadType_IsValid(int value) {
 }
 
 #if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+constexpr Payload_PayloadType Payload::HANDSHAKE;
 constexpr Payload_PayloadType Payload::CHATS;
 constexpr Payload_PayloadType Payload::MESSAGE;
 constexpr Payload_PayloadType Payload::PayloadType_MIN;
@@ -3665,6 +3693,209 @@ void Message::InternalSwap(Message* other) {
 
 // ===================================================================
 
+class Handshake::_Internal {
+ public:
+};
+
+Handshake::Handshake(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:octopus.Handshake)
+}
+Handshake::Handshake(const Handshake& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Handshake* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.secret_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.secret_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.secret_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_secret().empty()) {
+    _this->_impl_.secret_.Set(from._internal_secret(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:octopus.Handshake)
+}
+
+inline void Handshake::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.secret_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.secret_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.secret_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+Handshake::~Handshake() {
+  // @@protoc_insertion_point(destructor:octopus.Handshake)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void Handshake::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.secret_.Destroy();
+}
+
+void Handshake::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Handshake::Clear() {
+// @@protoc_insertion_point(message_clear_start:octopus.Handshake)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.secret_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Handshake::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string secret = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_secret();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "octopus.Handshake.secret"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* Handshake::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:octopus.Handshake)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string secret = 1;
+  if (!this->_internal_secret().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_secret().data(), static_cast<int>(this->_internal_secret().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "octopus.Handshake.secret");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_secret(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:octopus.Handshake)
+  return target;
+}
+
+size_t Handshake::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:octopus.Handshake)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string secret = 1;
+  if (!this->_internal_secret().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_secret());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Handshake::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Handshake::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Handshake::GetClassData() const { return &_class_data_; }
+
+
+void Handshake::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Handshake*>(&to_msg);
+  auto& from = static_cast<const Handshake&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:octopus.Handshake)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_secret().empty()) {
+    _this->_internal_set_secret(from._internal_secret());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Handshake::CopyFrom(const Handshake& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:octopus.Handshake)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Handshake::IsInitialized() const {
+  return true;
+}
+
+void Handshake::InternalSwap(Handshake* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.secret_, lhs_arena,
+      &other->_impl_.secret_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Handshake::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_octopus_2eproto_getter, &descriptor_table_octopus_2eproto_once,
+      file_level_metadata_octopus_2eproto[11]);
+}
+
+// ===================================================================
+
 class Vendor::_Internal {
  public:
 };
@@ -3913,7 +4144,7 @@ void Vendor::InternalSwap(Vendor* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Vendor::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_octopus_2eproto_getter, &descriptor_table_octopus_2eproto_once,
-      file_level_metadata_octopus_2eproto[11]);
+      file_level_metadata_octopus_2eproto[12]);
 }
 
 // ===================================================================
@@ -3921,12 +4152,17 @@ void Vendor::InternalSwap(Vendor* other) {
 class Payload::_Internal {
  public:
   static const ::octopus::Vendor& vendor(const Payload* msg);
+  static const ::octopus::Handshake& handshake(const Payload* msg);
   static const ::octopus::Message& message(const Payload* msg);
 };
 
 const ::octopus::Vendor&
 Payload::_Internal::vendor(const Payload* msg) {
   return *msg->_impl_.vendor_;
+}
+const ::octopus::Handshake&
+Payload::_Internal::handshake(const Payload* msg) {
+  return *msg->_impl_.handshake_;
 }
 const ::octopus::Message&
 Payload::_Internal::message(const Payload* msg) {
@@ -3945,6 +4181,7 @@ Payload::Payload(const Payload& from)
       decltype(_impl_.chats_){from._impl_.chats_}
     , decltype(_impl_.uid_){}
     , decltype(_impl_.vendor_){nullptr}
+    , decltype(_impl_.handshake_){nullptr}
     , decltype(_impl_.message_){nullptr}
     , decltype(_impl_.type_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -3961,6 +4198,9 @@ Payload::Payload(const Payload& from)
   if (from._internal_has_vendor()) {
     _this->_impl_.vendor_ = new ::octopus::Vendor(*from._impl_.vendor_);
   }
+  if (from._internal_has_handshake()) {
+    _this->_impl_.handshake_ = new ::octopus::Handshake(*from._impl_.handshake_);
+  }
   if (from._internal_has_message()) {
     _this->_impl_.message_ = new ::octopus::Message(*from._impl_.message_);
   }
@@ -3976,6 +4216,7 @@ inline void Payload::SharedCtor(
       decltype(_impl_.chats_){arena}
     , decltype(_impl_.uid_){}
     , decltype(_impl_.vendor_){nullptr}
+    , decltype(_impl_.handshake_){nullptr}
     , decltype(_impl_.message_){nullptr}
     , decltype(_impl_.type_){0}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -4000,6 +4241,7 @@ inline void Payload::SharedDtor() {
   _impl_.chats_.~RepeatedPtrField();
   _impl_.uid_.Destroy();
   if (this != internal_default_instance()) delete _impl_.vendor_;
+  if (this != internal_default_instance()) delete _impl_.handshake_;
   if (this != internal_default_instance()) delete _impl_.message_;
 }
 
@@ -4019,6 +4261,10 @@ void Payload::Clear() {
     delete _impl_.vendor_;
   }
   _impl_.vendor_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.handshake_ != nullptr) {
+    delete _impl_.handshake_;
+  }
+  _impl_.handshake_ = nullptr;
   if (GetArenaForAllocation() == nullptr && _impl_.message_ != nullptr) {
     delete _impl_.message_;
   }
@@ -4060,22 +4306,30 @@ const char* Payload::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
         } else
           goto handle_unusual;
         continue;
-      // repeated .octopus.Chat chats = 4;
+      // .octopus.Handshake handshake = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_handshake(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .octopus.Chat chats = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_chats(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
         } else
           goto handle_unusual;
         continue;
-      // .octopus.Message message = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+      // .octopus.Message message = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           ptr = ctx->ParseMessage(_internal_mutable_message(), ptr);
           CHK_(ptr);
         } else
@@ -4134,18 +4388,25 @@ uint8_t* Payload::_InternalSerialize(
       3, this->_internal_type(), target);
   }
 
-  // repeated .octopus.Chat chats = 4;
+  // .octopus.Handshake handshake = 4;
+  if (this->_internal_has_handshake()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::handshake(this),
+        _Internal::handshake(this).GetCachedSize(), target, stream);
+  }
+
+  // repeated .octopus.Chat chats = 5;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_chats_size()); i < n; i++) {
     const auto& repfield = this->_internal_chats(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(5, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // .octopus.Message message = 5;
+  // .octopus.Message message = 6;
   if (this->_internal_has_message()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(5, _Internal::message(this),
+      InternalWriteMessage(6, _Internal::message(this),
         _Internal::message(this).GetCachedSize(), target, stream);
   }
 
@@ -4165,7 +4426,7 @@ size_t Payload::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .octopus.Chat chats = 4;
+  // repeated .octopus.Chat chats = 5;
   total_size += 1UL * this->_internal_chats_size();
   for (const auto& msg : this->_impl_.chats_) {
     total_size +=
@@ -4186,7 +4447,14 @@ size_t Payload::ByteSizeLong() const {
         *_impl_.vendor_);
   }
 
-  // .octopus.Message message = 5;
+  // .octopus.Handshake handshake = 4;
+  if (this->_internal_has_handshake()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.handshake_);
+  }
+
+  // .octopus.Message message = 6;
   if (this->_internal_has_message()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -4224,6 +4492,10 @@ void Payload::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
   if (from._internal_has_vendor()) {
     _this->_internal_mutable_vendor()->::octopus::Vendor::MergeFrom(
         from._internal_vendor());
+  }
+  if (from._internal_has_handshake()) {
+    _this->_internal_mutable_handshake()->::octopus::Handshake::MergeFrom(
+        from._internal_handshake());
   }
   if (from._internal_has_message()) {
     _this->_internal_mutable_message()->::octopus::Message::MergeFrom(
@@ -4267,7 +4539,7 @@ void Payload::InternalSwap(Payload* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Payload::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_octopus_2eproto_getter, &descriptor_table_octopus_2eproto_once,
-      file_level_metadata_octopus_2eproto[12]);
+      file_level_metadata_octopus_2eproto[13]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -4316,6 +4588,10 @@ Arena::CreateMaybeMessage< ::octopus::Chat >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::octopus::Message*
 Arena::CreateMaybeMessage< ::octopus::Message >(Arena* arena) {
   return Arena::CreateMessageInternal< ::octopus::Message >(arena);
+}
+template<> PROTOBUF_NOINLINE ::octopus::Handshake*
+Arena::CreateMaybeMessage< ::octopus::Handshake >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::octopus::Handshake >(arena);
 }
 template<> PROTOBUF_NOINLINE ::octopus::Vendor*
 Arena::CreateMaybeMessage< ::octopus::Vendor >(Arena* arena) {

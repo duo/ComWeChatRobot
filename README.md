@@ -2,16 +2,19 @@
 Wechat 从端 (修改自 [ljc545w/ComWeChatRobot](https://github.com/ljc545w/ComWeChatRobot))
 
 ## 依赖
-```
+```bash
 vcpkg install protobuf:x86-windows-static
+# TLS (OCTOPUS_ENABLE_SSL)
+vcpkg install openssl:x86-windows-static
 ```
 
 ## 配置
 * conf.json
 ```json5
 {
-    "host": "ws://127.0.0.1:9527", // 主端地址
-    "blacklist": [] // 黑名单列表
+    "Host": "ws://127.0.0.1:9527", // 主端地址 (TLS 使用wss://)
+    "Secret": "Hello world!", // 通讯密钥
+    "Blacklist": [] // 黑名单列表
 }
 ```
 

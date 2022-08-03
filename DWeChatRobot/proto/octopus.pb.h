@@ -55,6 +55,9 @@ extern ChatDefaultTypeInternal _Chat_default_instance_;
 class File;
 struct FileDefaultTypeInternal;
 extern FileDefaultTypeInternal _File_default_instance_;
+class Handshake;
+struct HandshakeDefaultTypeInternal;
+extern HandshakeDefaultTypeInternal _Handshake_default_instance_;
 class Link;
 struct LinkDefaultTypeInternal;
 extern LinkDefaultTypeInternal _Link_default_instance_;
@@ -90,6 +93,7 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::octopus::Binary* Arena::CreateMaybeMessage<::octopus::Binary>(Arena*);
 template<> ::octopus::Chat* Arena::CreateMaybeMessage<::octopus::Chat>(Arena*);
 template<> ::octopus::File* Arena::CreateMaybeMessage<::octopus::File>(Arena*);
+template<> ::octopus::Handshake* Arena::CreateMaybeMessage<::octopus::Handshake>(Arena*);
 template<> ::octopus::Link* Arena::CreateMaybeMessage<::octopus::Link>(Arena*);
 template<> ::octopus::Location* Arena::CreateMaybeMessage<::octopus::Location>(Arena*);
 template<> ::octopus::Message* Arena::CreateMaybeMessage<::octopus::Message>(Arena*);
@@ -160,13 +164,14 @@ inline bool Message_MessageType_Parse(
     Message_MessageType_descriptor(), name, value);
 }
 enum Payload_PayloadType : int {
-  Payload_PayloadType_CHATS = 0,
-  Payload_PayloadType_MESSAGE = 1,
+  Payload_PayloadType_HANDSHAKE = 0,
+  Payload_PayloadType_CHATS = 1,
+  Payload_PayloadType_MESSAGE = 2,
   Payload_PayloadType_Payload_PayloadType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   Payload_PayloadType_Payload_PayloadType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool Payload_PayloadType_IsValid(int value);
-constexpr Payload_PayloadType Payload_PayloadType_PayloadType_MIN = Payload_PayloadType_CHATS;
+constexpr Payload_PayloadType Payload_PayloadType_PayloadType_MIN = Payload_PayloadType_HANDSHAKE;
 constexpr Payload_PayloadType Payload_PayloadType_PayloadType_MAX = Payload_PayloadType_MESSAGE;
 constexpr int Payload_PayloadType_PayloadType_ARRAYSIZE = Payload_PayloadType_PayloadType_MAX + 1;
 
@@ -2350,6 +2355,159 @@ class Message final :
 };
 // -------------------------------------------------------------------
 
+class Handshake final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:octopus.Handshake) */ {
+ public:
+  inline Handshake() : Handshake(nullptr) {}
+  ~Handshake() override;
+  explicit PROTOBUF_CONSTEXPR Handshake(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Handshake(const Handshake& from);
+  Handshake(Handshake&& from) noexcept
+    : Handshake() {
+    *this = ::std::move(from);
+  }
+
+  inline Handshake& operator=(const Handshake& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Handshake& operator=(Handshake&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Handshake& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Handshake* internal_default_instance() {
+    return reinterpret_cast<const Handshake*>(
+               &_Handshake_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(Handshake& a, Handshake& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Handshake* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Handshake* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Handshake* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Handshake>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Handshake& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const Handshake& from) {
+    Handshake::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Handshake* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "octopus.Handshake";
+  }
+  protected:
+  explicit Handshake(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSecretFieldNumber = 1,
+  };
+  // string secret = 1;
+  void clear_secret();
+  const std::string& secret() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_secret(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_secret();
+  PROTOBUF_NODISCARD std::string* release_secret();
+  void set_allocated_secret(std::string* secret);
+  private:
+  const std::string& _internal_secret() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_secret(const std::string& value);
+  std::string* _internal_mutable_secret();
+  public:
+
+  // @@protoc_insertion_point(class_scope:octopus.Handshake)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr secret_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_octopus_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Vendor final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:octopus.Vendor) */ {
  public:
@@ -2398,7 +2556,7 @@ class Vendor final :
                &_Vendor_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    12;
 
   friend void swap(Vendor& a, Vendor& b) {
     a.Swap(&b);
@@ -2567,7 +2725,7 @@ class Payload final :
                &_Payload_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    13;
 
   friend void swap(Payload& a, Payload& b) {
     a.Swap(&b);
@@ -2638,6 +2796,8 @@ class Payload final :
   // nested types ----------------------------------------------------
 
   typedef Payload_PayloadType PayloadType;
+  static constexpr PayloadType HANDSHAKE =
+    Payload_PayloadType_HANDSHAKE;
   static constexpr PayloadType CHATS =
     Payload_PayloadType_CHATS;
   static constexpr PayloadType MESSAGE =
@@ -2670,13 +2830,14 @@ class Payload final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kChatsFieldNumber = 4,
+    kChatsFieldNumber = 5,
     kUidFieldNumber = 1,
     kVendorFieldNumber = 2,
-    kMessageFieldNumber = 5,
+    kHandshakeFieldNumber = 4,
+    kMessageFieldNumber = 6,
     kTypeFieldNumber = 3,
   };
-  // repeated .octopus.Chat chats = 4;
+  // repeated .octopus.Chat chats = 5;
   int chats_size() const;
   private:
   int _internal_chats_size() const;
@@ -2726,7 +2887,25 @@ class Payload final :
       ::octopus::Vendor* vendor);
   ::octopus::Vendor* unsafe_arena_release_vendor();
 
-  // .octopus.Message message = 5;
+  // .octopus.Handshake handshake = 4;
+  bool has_handshake() const;
+  private:
+  bool _internal_has_handshake() const;
+  public:
+  void clear_handshake();
+  const ::octopus::Handshake& handshake() const;
+  PROTOBUF_NODISCARD ::octopus::Handshake* release_handshake();
+  ::octopus::Handshake* mutable_handshake();
+  void set_allocated_handshake(::octopus::Handshake* handshake);
+  private:
+  const ::octopus::Handshake& _internal_handshake() const;
+  ::octopus::Handshake* _internal_mutable_handshake();
+  public:
+  void unsafe_arena_set_allocated_handshake(
+      ::octopus::Handshake* handshake);
+  ::octopus::Handshake* unsafe_arena_release_handshake();
+
+  // .octopus.Message message = 6;
   bool has_message() const;
   private:
   bool _internal_has_message() const;
@@ -2764,6 +2943,7 @@ class Payload final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::octopus::Chat > chats_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uid_;
     ::octopus::Vendor* vendor_;
+    ::octopus::Handshake* handshake_;
     ::octopus::Message* message_;
     int type_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -4914,6 +5094,60 @@ inline void Message::set_allocated_link(::octopus::Link* link) {
 
 // -------------------------------------------------------------------
 
+// Handshake
+
+// string secret = 1;
+inline void Handshake::clear_secret() {
+  _impl_.secret_.ClearToEmpty();
+}
+inline const std::string& Handshake::secret() const {
+  // @@protoc_insertion_point(field_get:octopus.Handshake.secret)
+  return _internal_secret();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Handshake::set_secret(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.secret_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:octopus.Handshake.secret)
+}
+inline std::string* Handshake::mutable_secret() {
+  std::string* _s = _internal_mutable_secret();
+  // @@protoc_insertion_point(field_mutable:octopus.Handshake.secret)
+  return _s;
+}
+inline const std::string& Handshake::_internal_secret() const {
+  return _impl_.secret_.Get();
+}
+inline void Handshake::_internal_set_secret(const std::string& value) {
+  
+  _impl_.secret_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Handshake::_internal_mutable_secret() {
+  
+  return _impl_.secret_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Handshake::release_secret() {
+  // @@protoc_insertion_point(field_release:octopus.Handshake.secret)
+  return _impl_.secret_.Release();
+}
+inline void Handshake::set_allocated_secret(std::string* secret) {
+  if (secret != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.secret_.SetAllocated(secret, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.secret_.IsDefault()) {
+    _impl_.secret_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:octopus.Handshake.secret)
+}
+
+// -------------------------------------------------------------------
+
 // Vendor
 
 // string uid = 1;
@@ -5180,7 +5414,97 @@ inline void Payload::set_type(::octopus::Payload_PayloadType value) {
   // @@protoc_insertion_point(field_set:octopus.Payload.type)
 }
 
-// repeated .octopus.Chat chats = 4;
+// .octopus.Handshake handshake = 4;
+inline bool Payload::_internal_has_handshake() const {
+  return this != internal_default_instance() && _impl_.handshake_ != nullptr;
+}
+inline bool Payload::has_handshake() const {
+  return _internal_has_handshake();
+}
+inline void Payload::clear_handshake() {
+  if (GetArenaForAllocation() == nullptr && _impl_.handshake_ != nullptr) {
+    delete _impl_.handshake_;
+  }
+  _impl_.handshake_ = nullptr;
+}
+inline const ::octopus::Handshake& Payload::_internal_handshake() const {
+  const ::octopus::Handshake* p = _impl_.handshake_;
+  return p != nullptr ? *p : reinterpret_cast<const ::octopus::Handshake&>(
+      ::octopus::_Handshake_default_instance_);
+}
+inline const ::octopus::Handshake& Payload::handshake() const {
+  // @@protoc_insertion_point(field_get:octopus.Payload.handshake)
+  return _internal_handshake();
+}
+inline void Payload::unsafe_arena_set_allocated_handshake(
+    ::octopus::Handshake* handshake) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.handshake_);
+  }
+  _impl_.handshake_ = handshake;
+  if (handshake) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:octopus.Payload.handshake)
+}
+inline ::octopus::Handshake* Payload::release_handshake() {
+  
+  ::octopus::Handshake* temp = _impl_.handshake_;
+  _impl_.handshake_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::octopus::Handshake* Payload::unsafe_arena_release_handshake() {
+  // @@protoc_insertion_point(field_release:octopus.Payload.handshake)
+  
+  ::octopus::Handshake* temp = _impl_.handshake_;
+  _impl_.handshake_ = nullptr;
+  return temp;
+}
+inline ::octopus::Handshake* Payload::_internal_mutable_handshake() {
+  
+  if (_impl_.handshake_ == nullptr) {
+    auto* p = CreateMaybeMessage<::octopus::Handshake>(GetArenaForAllocation());
+    _impl_.handshake_ = p;
+  }
+  return _impl_.handshake_;
+}
+inline ::octopus::Handshake* Payload::mutable_handshake() {
+  ::octopus::Handshake* _msg = _internal_mutable_handshake();
+  // @@protoc_insertion_point(field_mutable:octopus.Payload.handshake)
+  return _msg;
+}
+inline void Payload::set_allocated_handshake(::octopus::Handshake* handshake) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.handshake_;
+  }
+  if (handshake) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(handshake);
+    if (message_arena != submessage_arena) {
+      handshake = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, handshake, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.handshake_ = handshake;
+  // @@protoc_insertion_point(field_set_allocated:octopus.Payload.handshake)
+}
+
+// repeated .octopus.Chat chats = 5;
 inline int Payload::_internal_chats_size() const {
   return _impl_.chats_.size();
 }
@@ -5220,7 +5544,7 @@ Payload::chats() const {
   return _impl_.chats_;
 }
 
-// .octopus.Message message = 5;
+// .octopus.Message message = 6;
 inline bool Payload::_internal_has_message() const {
   return this != internal_default_instance() && _impl_.message_ != nullptr;
 }
@@ -5313,6 +5637,8 @@ inline void Payload::set_allocated_message(::octopus::Message* message) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

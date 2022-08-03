@@ -3,6 +3,13 @@
 
 #include "misc.h"
 
+#ifdef OCTOPUS_ENABLE_SSL
+
+#define MG_ENABLE_OPENSSL 1
+#pragma comment (lib, "crypt32.lib")
+
+#endif
+
 #include "mongoose/mongoose.c"
 #include "nlohmann/json.hpp"
 #include "pugixml/pugixml.hpp"
@@ -12,7 +19,6 @@
 
 #include <queue>
 
-
 #define RETRY_MAX 200
 
 #pragma comment (lib, "rpcrt4.lib")
@@ -20,6 +26,7 @@
 using octopus::Payload;
 using octopus::Vendor;
 using octopus::User;
+using octopus::Handshake;
 using octopus::Message;
 using octopus::Chat;
 using octopus::Photo;
@@ -66,10 +73,13 @@ private:
     static void Connect(void*);
     static void OnEvent(struct mg_connection*, int, void*, void*);
 
+    void DoHandshake();
     void UploadChats();
     void Deliver(const Payload&);
 
     std::string addr_;
+    std::string secret_;
+
     std::wstring workdir_;
     std::wstring tempdir_;
     std::wstring imagedir_;
@@ -212,8 +222,15 @@ void Octopus::OnEvent(struct mg_connection* c, int ev, void* ev_data, void* fn_d
     } else if (ev == MG_EV_ERROR) {
         MG_ERROR(("%p %s", c->fd, (char*)ev_data));
         c->is_closing = 1;
+    } else if (ev == MG_EV_CONNECT) {
+        const char* addr = ((Octopus*)fn_data)->addr_.c_str();
+        if (mg_url_is_ssl(addr)) {
+            struct mg_tls_opts opts = {};
+            mg_tls_init(c, &opts);
+        }
     } else if (ev == MG_EV_WS_OPEN) {
         MG_INFO(("CONNECTED to %s", ((Octopus*)fn_data)->addr_.c_str()));
+        ((Octopus*)fn_data)->DoHandshake();
         HANDLE hThread = CreateThread(NULL, 0, Octopus::DelayUploadChats, fn_data, NULL, 0);
         if (hThread) {
             CloseHandle(hThread);
@@ -229,6 +246,24 @@ void Octopus::OnEvent(struct mg_connection* c, int ev, void* ev_data, void* fn_d
         MG_INFO(("CLOSED"));
         ((Octopus*)fn_data)->client_ = NULL;
     }
+}
+
+void Octopus::DoHandshake() {
+    Payload payload;
+
+    WxUser me = GetSelf();
+
+    payload.mutable_vendor()->set_uid(me.id);
+    payload.mutable_vendor()->set_type("wechat");
+
+    payload.set_uid(gen_uuid());
+    payload.set_type(Payload_PayloadType::Payload_PayloadType_HANDSHAKE);
+
+    Handshake* handshake = payload.mutable_handshake();
+    handshake->set_secret(this->secret_);
+
+    std::lock_guard<std::mutex> lck(mtx_);
+    q_.push(payload);
 }
 
 void Octopus::UploadChats() {
@@ -551,9 +586,10 @@ void Octopus::Start(const char* conf) {
     //CreateConsole();
 
     json data = json::parse(conf);
-    this->addr_ = data["host"];
+    this->addr_ = data["Host"];
+    this->secret_ = data["Secret"];
     
-    for (std::string elem : data["blacklist"]) {
+    for (std::string elem : data["Blacklist"]) {
         std::cout << "Add " << elem << " to blacklist." << std::endl;
         this->blacklist_.push_back(elem);
     }
