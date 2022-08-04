@@ -62,7 +62,7 @@ message Message {
     int64 date = 2;
     int64 edit_date = 3;
     User from = 4;
-    Chat Chat = 5;
+    Chat chat = 5;
     string text = 6;
 
     Message reply_to_message  = 7;

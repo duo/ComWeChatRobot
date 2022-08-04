@@ -2145,7 +2145,7 @@ class Message final :
       ::octopus::User* from);
   ::octopus::User* unsafe_arena_release_from();
 
-  // .octopus.Chat Chat = 5;
+  // .octopus.Chat chat = 5;
   bool has_chat() const;
   private:
   bool _internal_has_chat() const;
@@ -4262,7 +4262,7 @@ inline void Message::set_allocated_from(::octopus::User* from) {
   // @@protoc_insertion_point(field_set_allocated:octopus.Message.from)
 }
 
-// .octopus.Chat Chat = 5;
+// .octopus.Chat chat = 5;
 inline bool Message::_internal_has_chat() const {
   return this != internal_default_instance() && _impl_.chat_ != nullptr;
 }
@@ -4281,7 +4281,7 @@ inline const ::octopus::Chat& Message::_internal_chat() const {
       ::octopus::_Chat_default_instance_);
 }
 inline const ::octopus::Chat& Message::chat() const {
-  // @@protoc_insertion_point(field_get:octopus.Message.Chat)
+  // @@protoc_insertion_point(field_get:octopus.Message.chat)
   return _internal_chat();
 }
 inline void Message::unsafe_arena_set_allocated_chat(
@@ -4295,7 +4295,7 @@ inline void Message::unsafe_arena_set_allocated_chat(
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:octopus.Message.Chat)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:octopus.Message.chat)
 }
 inline ::octopus::Chat* Message::release_chat() {
   
@@ -4313,7 +4313,7 @@ inline ::octopus::Chat* Message::release_chat() {
   return temp;
 }
 inline ::octopus::Chat* Message::unsafe_arena_release_chat() {
-  // @@protoc_insertion_point(field_release:octopus.Message.Chat)
+  // @@protoc_insertion_point(field_release:octopus.Message.chat)
   
   ::octopus::Chat* temp = _impl_.chat_;
   _impl_.chat_ = nullptr;
@@ -4329,7 +4329,7 @@ inline ::octopus::Chat* Message::_internal_mutable_chat() {
 }
 inline ::octopus::Chat* Message::mutable_chat() {
   ::octopus::Chat* _msg = _internal_mutable_chat();
-  // @@protoc_insertion_point(field_mutable:octopus.Message.Chat)
+  // @@protoc_insertion_point(field_mutable:octopus.Message.chat)
   return _msg;
 }
 inline void Message::set_allocated_chat(::octopus::Chat* chat) {
@@ -4349,7 +4349,7 @@ inline void Message::set_allocated_chat(::octopus::Chat* chat) {
     
   }
   _impl_.chat_ = chat;
-  // @@protoc_insertion_point(field_set_allocated:octopus.Message.Chat)
+  // @@protoc_insertion_point(field_set_allocated:octopus.Message.chat)
 }
 
 // string text = 6;

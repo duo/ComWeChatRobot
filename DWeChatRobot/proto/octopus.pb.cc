@@ -419,7 +419,7 @@ const char descriptor_table_protodef_octopus_2eproto[] PROTOBUF_SECTION_VARIABLE
   "\"\"\n\010ChatType\022\013\n\007PRIVATE\020\000\022\t\n\005GROUP\020\001\"\247\004\n"
   "\007Message\022\022\n\nmessage_id\030\001 \001(\003\022\014\n\004date\030\002 \001"
   "(\003\022\021\n\tedit_date\030\003 \001(\003\022\033\n\004from\030\004 \001(\0132\r.oc"
-  "topus.User\022\033\n\004Chat\030\005 \001(\0132\r.octopus.Chat\022"
+  "topus.User\022\033\n\004chat\030\005 \001(\0132\r.octopus.Chat\022"
   "\014\n\004text\030\006 \001(\t\022*\n\020reply_to_message\030\007 \001(\0132"
   "\020.octopus.Message\022*\n\004type\030c \001(\0162\034.octopu"
   "s.Message.MessageType\022\036\n\006photos\030d \003(\0132\016."
@@ -3238,7 +3238,7 @@ const char* Message::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
         } else
           goto handle_unusual;
         continue;
-      // .octopus.Chat Chat = 5;
+      // .octopus.Chat chat = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_chat(), ptr);
@@ -3388,7 +3388,7 @@ uint8_t* Message::_InternalSerialize(
         _Internal::from(this).GetCachedSize(), target, stream);
   }
 
-  // .octopus.Chat Chat = 5;
+  // .octopus.Chat chat = 5;
   if (this->_internal_has_chat()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(5, _Internal::chat(this),
@@ -3506,7 +3506,7 @@ size_t Message::ByteSizeLong() const {
         *_impl_.from_);
   }
 
-  // .octopus.Chat Chat = 5;
+  // .octopus.Chat chat = 5;
   if (this->_internal_has_chat()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(

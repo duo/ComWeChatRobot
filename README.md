@@ -12,7 +12,7 @@ vcpkg install openssl:x86-windows-static
 * conf.json
 ```json5
 {
-    "Host": "ws://127.0.0.1:9527", // 主端地址 (TLS 使用wss://)
+    "Host": "ws://127.0.0.1:9527", // 主端地址 (TLS 使用 wss://)
     "Secret": "Hello world!", // 通讯密钥
     "Blacklist": [] // 黑名单列表
 }
