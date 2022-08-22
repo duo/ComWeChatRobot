@@ -4,7 +4,7 @@ package octopus;
 
 message Binary {
     string mime = 1;
-    string md5 = 2;
+    string hash = 2;
     bytes blob = 3;
 }
 
@@ -58,7 +58,7 @@ message Chat {
 }
 
 message Message {
-    int64 message_id = 1;
+    string message_id = 1;
     int64 date = 2;
     int64 edit_date = 3;
     User from = 4;

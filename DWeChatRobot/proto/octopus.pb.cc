@@ -24,7 +24,7 @@ namespace octopus {
 PROTOBUF_CONSTEXPR Binary::Binary(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.mime_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.md5_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.hash_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.blob_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct BinaryDefaultTypeInternal {
@@ -164,6 +164,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR Message::Message(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.photos_)*/{}
+  , /*decltype(_impl_.message_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.text_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.from_)*/nullptr
   , /*decltype(_impl_.chat_)*/nullptr
@@ -174,7 +175,6 @@ PROTOBUF_CONSTEXPR Message::Message(
   , /*decltype(_impl_.sticker_)*/nullptr
   , /*decltype(_impl_.location_)*/nullptr
   , /*decltype(_impl_.link_)*/nullptr
-  , /*decltype(_impl_.message_id_)*/int64_t{0}
   , /*decltype(_impl_.date_)*/int64_t{0}
   , /*decltype(_impl_.edit_date_)*/int64_t{0}
   , /*decltype(_impl_.type_)*/0
@@ -246,7 +246,7 @@ const uint32_t TableStruct_octopus_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::octopus::Binary, _impl_.mime_),
-  PROTOBUF_FIELD_OFFSET(::octopus::Binary, _impl_.md5_),
+  PROTOBUF_FIELD_OFFSET(::octopus::Binary, _impl_.hash_),
   PROTOBUF_FIELD_OFFSET(::octopus::Binary, _impl_.blob_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::octopus::Photo, _internal_metadata_),
@@ -403,47 +403,47 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_octopus_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\roctopus.proto\022\007octopus\"1\n\006Binary\022\014\n\004mi"
-  "me\030\001 \001(\t\022\013\n\003md5\030\002 \001(\t\022\014\n\004blob\030\003 \001(\014\"%\n\005P"
-  "hoto\022\034\n\003bin\030\001 \001(\0132\017.octopus.Binary\"%\n\005Vi"
-  "deo\022\034\n\003bin\030\001 \001(\0132\017.octopus.Binary\"2\n\004Fil"
-  "e\022\034\n\003bin\030\001 \001(\0132\017.octopus.Binary\022\014\n\004name\030"
-  "\002 \001(\t\"%\n\005Voice\022\034\n\003bin\030\001 \001(\0132\017.octopus.Bi"
-  "nary\"\'\n\007Sticker\022\034\n\003bin\030\001 \001(\0132\017.octopus.B"
-  "inary\"/\n\010Location\022\021\n\tlongitude\030\001 \001(\001\022\020\n\010"
-  "latitude\030\002 \001(\001\"7\n\004Link\022\r\n\005title\030\001 \001(\t\022\023\n"
-  "\013description\030\002 \001(\t\022\013\n\003url\030\003 \001(\t\"5\n\004User\022"
-  "\013\n\003uid\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022\016\n\006remark"
-  "\030\003 \001(\t\"l\n\004Chat\022\013\n\003uid\030\001 \001(\t\022$\n\004type\030\002 \001("
-  "\0162\026.octopus.Chat.ChatType\022\r\n\005title\030\003 \001(\t"
-  "\"\"\n\010ChatType\022\013\n\007PRIVATE\020\000\022\t\n\005GROUP\020\001\"\247\004\n"
-  "\007Message\022\022\n\nmessage_id\030\001 \001(\003\022\014\n\004date\030\002 \001"
-  "(\003\022\021\n\tedit_date\030\003 \001(\003\022\033\n\004from\030\004 \001(\0132\r.oc"
-  "topus.User\022\033\n\004chat\030\005 \001(\0132\r.octopus.Chat\022"
-  "\014\n\004text\030\006 \001(\t\022*\n\020reply_to_message\030\007 \001(\0132"
-  "\020.octopus.Message\022*\n\004type\030c \001(\0162\034.octopu"
-  "s.Message.MessageType\022\036\n\006photos\030d \003(\0132\016."
-  "octopus.Photo\022\035\n\005video\030e \001(\0132\016.octopus.V"
-  "ideo\022\033\n\004file\030f \001(\0132\r.octopus.File\022\035\n\005voi"
-  "ce\030g \001(\0132\016.octopus.Voice\022!\n\007sticker\030h \001("
-  "\0132\020.octopus.Sticker\022#\n\010location\030i \001(\0132\021."
-  "octopus.Location\022\033\n\004link\030j \001(\0132\r.octopus"
-  ".Link\"g\n\013MessageType\022\010\n\004TEXT\020\000\022\t\n\005PHOTO\020"
-  "\001\022\t\n\005VIDEO\020\002\022\010\n\004FILE\020\003\022\t\n\005VOICE\020\004\022\013\n\007STI"
-  "CKER\020\005\022\014\n\010LOCATION\020\006\022\010\n\004LINK\020\007\"\033\n\tHandsh"
-  "ake\022\016\n\006secret\030\001 \001(\t\"#\n\006Vendor\022\013\n\003uid\030\001 \001"
-  "(\t\022\014\n\004type\030\002 \001(\t\"\201\002\n\007Payload\022\013\n\003uid\030\001 \001("
-  "\t\022\037\n\006vendor\030\002 \001(\0132\017.octopus.Vendor\022*\n\004ty"
-  "pe\030\003 \001(\0162\034.octopus.Payload.PayloadType\022%"
-  "\n\thandshake\030\004 \001(\0132\022.octopus.Handshake\022\034\n"
-  "\005chats\030\005 \003(\0132\r.octopus.Chat\022!\n\007message\030\006"
-  " \001(\0132\020.octopus.Message\"4\n\013PayloadType\022\r\n"
-  "\tHANDSHAKE\020\000\022\t\n\005CHATS\020\001\022\013\n\007MESSAGE\020\002b\006pr"
-  "oto3"
+  "\n\roctopus.proto\022\007octopus\"2\n\006Binary\022\014\n\004mi"
+  "me\030\001 \001(\t\022\014\n\004hash\030\002 \001(\t\022\014\n\004blob\030\003 \001(\014\"%\n\005"
+  "Photo\022\034\n\003bin\030\001 \001(\0132\017.octopus.Binary\"%\n\005V"
+  "ideo\022\034\n\003bin\030\001 \001(\0132\017.octopus.Binary\"2\n\004Fi"
+  "le\022\034\n\003bin\030\001 \001(\0132\017.octopus.Binary\022\014\n\004name"
+  "\030\002 \001(\t\"%\n\005Voice\022\034\n\003bin\030\001 \001(\0132\017.octopus.B"
+  "inary\"\'\n\007Sticker\022\034\n\003bin\030\001 \001(\0132\017.octopus."
+  "Binary\"/\n\010Location\022\021\n\tlongitude\030\001 \001(\001\022\020\n"
+  "\010latitude\030\002 \001(\001\"7\n\004Link\022\r\n\005title\030\001 \001(\t\022\023"
+  "\n\013description\030\002 \001(\t\022\013\n\003url\030\003 \001(\t\"5\n\004User"
+  "\022\013\n\003uid\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022\016\n\006remar"
+  "k\030\003 \001(\t\"l\n\004Chat\022\013\n\003uid\030\001 \001(\t\022$\n\004type\030\002 \001"
+  "(\0162\026.octopus.Chat.ChatType\022\r\n\005title\030\003 \001("
+  "\t\"\"\n\010ChatType\022\013\n\007PRIVATE\020\000\022\t\n\005GROUP\020\001\"\247\004"
+  "\n\007Message\022\022\n\nmessage_id\030\001 \001(\t\022\014\n\004date\030\002 "
+  "\001(\003\022\021\n\tedit_date\030\003 \001(\003\022\033\n\004from\030\004 \001(\0132\r.o"
+  "ctopus.User\022\033\n\004chat\030\005 \001(\0132\r.octopus.Chat"
+  "\022\014\n\004text\030\006 \001(\t\022*\n\020reply_to_message\030\007 \001(\013"
+  "2\020.octopus.Message\022*\n\004type\030c \001(\0162\034.octop"
+  "us.Message.MessageType\022\036\n\006photos\030d \003(\0132\016"
+  ".octopus.Photo\022\035\n\005video\030e \001(\0132\016.octopus."
+  "Video\022\033\n\004file\030f \001(\0132\r.octopus.File\022\035\n\005vo"
+  "ice\030g \001(\0132\016.octopus.Voice\022!\n\007sticker\030h \001"
+  "(\0132\020.octopus.Sticker\022#\n\010location\030i \001(\0132\021"
+  ".octopus.Location\022\033\n\004link\030j \001(\0132\r.octopu"
+  "s.Link\"g\n\013MessageType\022\010\n\004TEXT\020\000\022\t\n\005PHOTO"
+  "\020\001\022\t\n\005VIDEO\020\002\022\010\n\004FILE\020\003\022\t\n\005VOICE\020\004\022\013\n\007ST"
+  "ICKER\020\005\022\014\n\010LOCATION\020\006\022\010\n\004LINK\020\007\"\033\n\tHands"
+  "hake\022\016\n\006secret\030\001 \001(\t\"#\n\006Vendor\022\013\n\003uid\030\001 "
+  "\001(\t\022\014\n\004type\030\002 \001(\t\"\201\002\n\007Payload\022\013\n\003uid\030\001 \001"
+  "(\t\022\037\n\006vendor\030\002 \001(\0132\017.octopus.Vendor\022*\n\004t"
+  "ype\030\003 \001(\0162\034.octopus.Payload.PayloadType\022"
+  "%\n\thandshake\030\004 \001(\0132\022.octopus.Handshake\022\034"
+  "\n\005chats\030\005 \003(\0132\r.octopus.Chat\022!\n\007message\030"
+  "\006 \001(\0132\020.octopus.Message\"4\n\013PayloadType\022\r"
+  "\n\tHANDSHAKE\020\000\022\t\n\005CHATS\020\001\022\013\n\007MESSAGE\020\002b\006p"
+  "roto3"
   ;
 static ::_pbi::once_flag descriptor_table_octopus_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_octopus_2eproto = {
-    false, false, 1444, descriptor_table_protodef_octopus_2eproto,
+    false, false, 1445, descriptor_table_protodef_octopus_2eproto,
     "octopus.proto",
     &descriptor_table_octopus_2eproto_once, nullptr, 0, 14,
     schemas, file_default_instances, TableStruct_octopus_2eproto::offsets,
@@ -552,7 +552,7 @@ Binary::Binary(const Binary& from)
   Binary* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.mime_){}
-    , decltype(_impl_.md5_){}
+    , decltype(_impl_.hash_){}
     , decltype(_impl_.blob_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
@@ -565,12 +565,12 @@ Binary::Binary(const Binary& from)
     _this->_impl_.mime_.Set(from._internal_mime(), 
       _this->GetArenaForAllocation());
   }
-  _impl_.md5_.InitDefault();
+  _impl_.hash_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.md5_.Set("", GetArenaForAllocation());
+    _impl_.hash_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_md5().empty()) {
-    _this->_impl_.md5_.Set(from._internal_md5(), 
+  if (!from._internal_hash().empty()) {
+    _this->_impl_.hash_.Set(from._internal_hash(), 
       _this->GetArenaForAllocation());
   }
   _impl_.blob_.InitDefault();
@@ -590,7 +590,7 @@ inline void Binary::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.mime_){}
-    , decltype(_impl_.md5_){}
+    , decltype(_impl_.hash_){}
     , decltype(_impl_.blob_){}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -598,9 +598,9 @@ inline void Binary::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.mime_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.md5_.InitDefault();
+  _impl_.hash_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.md5_.Set("", GetArenaForAllocation());
+    _impl_.hash_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.blob_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -620,7 +620,7 @@ Binary::~Binary() {
 inline void Binary::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.mime_.Destroy();
-  _impl_.md5_.Destroy();
+  _impl_.hash_.Destroy();
   _impl_.blob_.Destroy();
 }
 
@@ -635,7 +635,7 @@ void Binary::Clear() {
   (void) cached_has_bits;
 
   _impl_.mime_.ClearToEmpty();
-  _impl_.md5_.ClearToEmpty();
+  _impl_.hash_.ClearToEmpty();
   _impl_.blob_.ClearToEmpty();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -656,13 +656,13 @@ const char* Binary::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
-      // string md5 = 2;
+      // string hash = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_md5();
+          auto str = _internal_mutable_hash();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "octopus.Binary.md5"));
+          CHK_(::_pbi::VerifyUTF8(str, "octopus.Binary.hash"));
         } else
           goto handle_unusual;
         continue;
@@ -714,14 +714,14 @@ uint8_t* Binary::_InternalSerialize(
         1, this->_internal_mime(), target);
   }
 
-  // string md5 = 2;
-  if (!this->_internal_md5().empty()) {
+  // string hash = 2;
+  if (!this->_internal_hash().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_md5().data(), static_cast<int>(this->_internal_md5().length()),
+      this->_internal_hash().data(), static_cast<int>(this->_internal_hash().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "octopus.Binary.md5");
+      "octopus.Binary.hash");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_md5(), target);
+        2, this->_internal_hash(), target);
   }
 
   // bytes blob = 3;
@@ -753,11 +753,11 @@ size_t Binary::ByteSizeLong() const {
         this->_internal_mime());
   }
 
-  // string md5 = 2;
-  if (!this->_internal_md5().empty()) {
+  // string hash = 2;
+  if (!this->_internal_hash().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_md5());
+        this->_internal_hash());
   }
 
   // bytes blob = 3;
@@ -788,8 +788,8 @@ void Binary::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   if (!from._internal_mime().empty()) {
     _this->_internal_set_mime(from._internal_mime());
   }
-  if (!from._internal_md5().empty()) {
-    _this->_internal_set_md5(from._internal_md5());
+  if (!from._internal_hash().empty()) {
+    _this->_internal_set_hash(from._internal_hash());
   }
   if (!from._internal_blob().empty()) {
     _this->_internal_set_blob(from._internal_blob());
@@ -818,8 +818,8 @@ void Binary::InternalSwap(Binary* other) {
       &other->_impl_.mime_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.md5_, lhs_arena,
-      &other->_impl_.md5_, rhs_arena
+      &_impl_.hash_, lhs_arena,
+      &other->_impl_.hash_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.blob_, lhs_arena,
@@ -3036,6 +3036,7 @@ Message::Message(const Message& from)
   Message* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.photos_){from._impl_.photos_}
+    , decltype(_impl_.message_id_){}
     , decltype(_impl_.text_){}
     , decltype(_impl_.from_){nullptr}
     , decltype(_impl_.chat_){nullptr}
@@ -3046,13 +3047,20 @@ Message::Message(const Message& from)
     , decltype(_impl_.sticker_){nullptr}
     , decltype(_impl_.location_){nullptr}
     , decltype(_impl_.link_){nullptr}
-    , decltype(_impl_.message_id_){}
     , decltype(_impl_.date_){}
     , decltype(_impl_.edit_date_){}
     , decltype(_impl_.type_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.message_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.message_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_message_id().empty()) {
+    _this->_impl_.message_id_.Set(from._internal_message_id(), 
+      _this->GetArenaForAllocation());
+  }
   _impl_.text_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.text_.Set("", GetArenaForAllocation());
@@ -3088,9 +3096,9 @@ Message::Message(const Message& from)
   if (from._internal_has_link()) {
     _this->_impl_.link_ = new ::octopus::Link(*from._impl_.link_);
   }
-  ::memcpy(&_impl_.message_id_, &from._impl_.message_id_,
+  ::memcpy(&_impl_.date_, &from._impl_.date_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.type_) -
-    reinterpret_cast<char*>(&_impl_.message_id_)) + sizeof(_impl_.type_));
+    reinterpret_cast<char*>(&_impl_.date_)) + sizeof(_impl_.type_));
   // @@protoc_insertion_point(copy_constructor:octopus.Message)
 }
 
@@ -3100,6 +3108,7 @@ inline void Message::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.photos_){arena}
+    , decltype(_impl_.message_id_){}
     , decltype(_impl_.text_){}
     , decltype(_impl_.from_){nullptr}
     , decltype(_impl_.chat_){nullptr}
@@ -3110,12 +3119,15 @@ inline void Message::SharedCtor(
     , decltype(_impl_.sticker_){nullptr}
     , decltype(_impl_.location_){nullptr}
     , decltype(_impl_.link_){nullptr}
-    , decltype(_impl_.message_id_){int64_t{0}}
     , decltype(_impl_.date_){int64_t{0}}
     , decltype(_impl_.edit_date_){int64_t{0}}
     , decltype(_impl_.type_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.message_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.message_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.text_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.text_.Set("", GetArenaForAllocation());
@@ -3134,6 +3146,7 @@ Message::~Message() {
 inline void Message::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.photos_.~RepeatedPtrField();
+  _impl_.message_id_.Destroy();
   _impl_.text_.Destroy();
   if (this != internal_default_instance()) delete _impl_.from_;
   if (this != internal_default_instance()) delete _impl_.chat_;
@@ -3157,6 +3170,7 @@ void Message::Clear() {
   (void) cached_has_bits;
 
   _impl_.photos_.Clear();
+  _impl_.message_id_.ClearToEmpty();
   _impl_.text_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.from_ != nullptr) {
     delete _impl_.from_;
@@ -3194,9 +3208,9 @@ void Message::Clear() {
     delete _impl_.link_;
   }
   _impl_.link_ = nullptr;
-  ::memset(&_impl_.message_id_, 0, static_cast<size_t>(
+  ::memset(&_impl_.date_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.type_) -
-      reinterpret_cast<char*>(&_impl_.message_id_)) + sizeof(_impl_.type_));
+      reinterpret_cast<char*>(&_impl_.date_)) + sizeof(_impl_.type_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3206,11 +3220,13 @@ const char* Message::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 message_id = 1;
+      // string message_id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.message_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_message_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "octopus.Message.message_id"));
         } else
           goto handle_unusual;
         continue;
@@ -3363,10 +3379,14 @@ uint8_t* Message::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 message_id = 1;
-  if (this->_internal_message_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_message_id(), target);
+  // string message_id = 1;
+  if (!this->_internal_message_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_message_id().data(), static_cast<int>(this->_internal_message_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "octopus.Message.message_id");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_message_id(), target);
   }
 
   // int64 date = 2;
@@ -3492,6 +3512,13 @@ size_t Message::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
+  // string message_id = 1;
+  if (!this->_internal_message_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_message_id());
+  }
+
   // string text = 6;
   if (!this->_internal_text().empty()) {
     total_size += 1 +
@@ -3562,11 +3589,6 @@ size_t Message::ByteSizeLong() const {
         *_impl_.link_);
   }
 
-  // int64 message_id = 1;
-  if (this->_internal_message_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_message_id());
-  }
-
   // int64 date = 2;
   if (this->_internal_date() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_date());
@@ -3602,6 +3624,9 @@ void Message::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
   (void) cached_has_bits;
 
   _this->_impl_.photos_.MergeFrom(from._impl_.photos_);
+  if (!from._internal_message_id().empty()) {
+    _this->_internal_set_message_id(from._internal_message_id());
+  }
   if (!from._internal_text().empty()) {
     _this->_internal_set_text(from._internal_text());
   }
@@ -3641,9 +3666,6 @@ void Message::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
     _this->_internal_mutable_link()->::octopus::Link::MergeFrom(
         from._internal_link());
   }
-  if (from._internal_message_id() != 0) {
-    _this->_internal_set_message_id(from._internal_message_id());
-  }
   if (from._internal_date() != 0) {
     _this->_internal_set_date(from._internal_date());
   }
@@ -3673,6 +3695,10 @@ void Message::InternalSwap(Message* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.photos_.InternalSwap(&other->_impl_.photos_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.message_id_, lhs_arena,
+      &other->_impl_.message_id_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.text_, lhs_arena,
       &other->_impl_.text_, rhs_arena

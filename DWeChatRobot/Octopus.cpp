@@ -111,7 +111,7 @@ void Octopus::WebsocketThread() {
                 Payload payload = q_.front();
 
                 if (payload.message().type() == Message_MessageType::Message_MessageType_PHOTO) {
-                    const std::string path = payload.message().photos().Get(0).bin().md5();
+                    const std::string path = payload.message().photos().Get(0).bin().hash();
                     const std::string content = read_file(path);
                     if (content.empty()) {
                         if (++retry_count < RETRY_MAX) {
@@ -127,7 +127,7 @@ void Octopus::WebsocketThread() {
                         payload.mutable_message()->add_photos()->mutable_bin()->set_blob(content);
                     }
                 } else if (payload.message().type() == Message_MessageType::Message_MessageType_VIDEO) {
-                    const std::string path = payload.message().video().bin().md5();
+                    const std::string path = payload.message().video().bin().hash();
                     const std::string content = read_file(path);
                     if (content.empty()) {
                         if (++retry_count < RETRY_MAX) {
@@ -139,10 +139,11 @@ void Octopus::WebsocketThread() {
                             payload.mutable_message()->set_text(as_utf8(L"[视频保存失败]"));
                         }
                     } else {
+                        payload.mutable_message()->mutable_text()->clear();
                         payload.mutable_message()->mutable_video()->mutable_bin()->set_blob(content);
                     }
                 } else if (payload.message().type() == Message_MessageType::Message_MessageType_VOICE) {
-                    const std::string path = payload.message().voice().bin().md5();
+                    const std::string path = payload.message().voice().bin().hash();
                     const std::string content = read_file(path);
                     if (content.empty()) {
                         if (++retry_count < RETRY_MAX) {
@@ -155,6 +156,7 @@ void Octopus::WebsocketThread() {
                         }
                     }
                     else {
+                        payload.mutable_message()->mutable_text()->clear();
                         payload.mutable_message()->mutable_voice()->mutable_bin()->set_blob(content);
                     }
                 } else if (payload.message().type() == Message_MessageType::Message_MessageType_FILE) {
@@ -170,6 +172,7 @@ void Octopus::WebsocketThread() {
                             payload.mutable_message()->set_text(as_utf8(L"[文件保存失败]"));
                         }
                     } else {
+                        payload.mutable_message()->mutable_text()->clear();
                         payload.mutable_message()->mutable_file()->mutable_bin()->set_blob(content);
                         int pos_begin = path.find_last_of("\\") + 1;
                         const std::string filename = path.substr(pos_begin, path.size() - pos_begin);
@@ -309,7 +312,7 @@ void Octopus::Deliver(const Payload& payload) {
     }
     case Message_MessageType::Message_MessageType_PHOTO: {
         for (Photo photo : payload.message().photos()) {
-            std::string path = as_utf8(this->tempdir_) + photo.bin().md5();
+            std::string path = as_utf8(this->tempdir_) + photo.bin().hash();
             if (write_file(path, photo.bin().blob())) {
                 SendImage((wchar_t*)to.c_str(), (wchar_t*)as_wide(path).c_str());
             }
@@ -317,14 +320,14 @@ void Octopus::Deliver(const Payload& payload) {
         break;
     }
     case Message_MessageType::Message_MessageType_STICKER: {
-        std::string path = as_utf8(this->tempdir_) + payload.message().sticker().bin().md5();
+        std::string path = as_utf8(this->tempdir_) + payload.message().sticker().bin().hash();
         if (write_file(path, payload.message().sticker().bin().blob())) {
             SendImage((wchar_t*)to.c_str(), (wchar_t*)as_wide(path).c_str());
         }
         break;
     }
     case Message_MessageType::Message_MessageType_VIDEO: {
-        std::string path = as_utf8(this->tempdir_) + payload.message().video().bin().md5();
+        std::string path = as_utf8(this->tempdir_) + payload.message().video().bin().hash();
         if (payload.message().video().bin().mime() == "video/mp4") {
             path += ".mp4";
         }
@@ -348,7 +351,7 @@ void Octopus::Deliver(const Payload& payload) {
 void Octopus::Forward(ReceiveMsgStruct* msg) {
     std::string sender = as_utf8(msg->sender);
 
-    if (std::find(blacklist_.begin(), blacklist_.end(), sender) != blacklist_.end()) {
+    if (sender.length() == 0 || std::find(blacklist_.begin(), blacklist_.end(), sender) != blacklist_.end()) {
         delete msg;
         return;
     }
@@ -366,7 +369,7 @@ void Octopus::Forward(ReceiveMsgStruct* msg) {
     Message* message = payload.mutable_message();
     Chat* chat = message->mutable_chat();
 
-    message->set_message_id(msg->srvid);
+    message->set_message_id(to_string(msg->srvid));
     message->set_date(msg->timestamp);
 
     WxUser senderInfo = GetUserInfo(msg->sender);
@@ -408,7 +411,7 @@ void Octopus::Forward(ReceiveMsgStruct* msg) {
         std::wstring path = this->imagedir_ + filename;
 
         message->set_type(Message_MessageType::Message_MessageType_PHOTO);
-        message->add_photos()->mutable_bin()->set_md5(as_utf8(path));
+        message->add_photos()->mutable_bin()->set_hash(as_utf8(path));
         break;
     }
     case 0x22: { // voice
@@ -426,7 +429,7 @@ void Octopus::Forward(ReceiveMsgStruct* msg) {
             std::wstring path = this->voicedir_ + from + L"-" + msgid + L".amr";
 
             message->set_type(Message_MessageType::Message_MessageType_VOICE);
-            message->mutable_voice()->mutable_bin()->set_md5(as_utf8(path));
+            message->mutable_voice()->mutable_bin()->set_hash(as_utf8(path));
         }
         break;
     }
@@ -437,7 +440,7 @@ void Octopus::Forward(ReceiveMsgStruct* msg) {
         std::wstring path = workdir_ + filename;
 
         message->set_type(Message_MessageType::Message_MessageType_VIDEO);
-        message->mutable_video()->mutable_bin()->set_md5(as_utf8(path));
+        message->mutable_video()->mutable_bin()->set_hash(as_utf8(path));
         break;
     }
     case 0x2F: {
@@ -535,7 +538,7 @@ void Octopus::Forward(ReceiveMsgStruct* msg) {
                 pugi::xpath_node srvid_node = doc.select_node(PUGIXML_TEXT("/msg/appmsg/refermsg/svrid"));
                 if (srvid_node) {
                     Message* replyMessage = message->mutable_reply_to_message();
-                    replyMessage->set_message_id(srvid_node.node().text().as_ullong());
+                    replyMessage->set_message_id(pugi::as_utf8(srvid_node.node().text().as_string()));
                     replyMessage->set_text(as_utf8(reply));
                 }
 
