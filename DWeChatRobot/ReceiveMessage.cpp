@@ -136,6 +136,11 @@ static void dealMessage(DWORD messageAddr)
     jMsg["wxid"] = length == 0 ? jMsg["sender"].get<std::string>() : unicode_to_utf8((wchar_t *)READ_WSTRING(messageAddr, 0x170).c_str());
     jMsg["message"] = unicode_to_utf8((wchar_t *)READ_WSTRING(messageAddr, 0x70).c_str());
     jMsg["filepath"] = unicode_to_utf8((wchar_t *)READ_WSTRING(messageAddr, 0x1AC).c_str());
+    if (jMsg["type"].get<int>() == 43 && jMsg["filepath"].get<std::string>().length() == 0) {
+        std::string path = unicode_to_utf8((wchar_t *)READ_WSTRING(messageAddr, 0x198).c_str());
+        int pos = path.find_last_of(".");
+        jMsg["filepath"] = path.substr(0, pos) + ".mp4";
+    }
     string extrabuf = base64_encode((BYTE *)(*(DWORD *)(messageAddr + 0x8C)), *(DWORD *)(messageAddr + 0x8C + 0x4));
     jMsg["extrainfo"] = extrabuf;
     jMsg["time"] = unicode_to_utf8((wchar_t *)GetTimeW(*(DWORD *)(messageAddr + 0x44)).c_str());
@@ -226,7 +231,7 @@ VOID HookReceiveMessage(int port)
     SendMessageNextCall = WeChatWinBase + SendMessageNextCallOffset;
     SendMessageJmpBackAddress = SendMessageHookAddress + 0x5;
     HookAnyAddress(ReceiveMessageHookAddress, (LPVOID)dealReceiveMessage, OldReceiveMessageAsmCode);
-    HookAnyAddress(SendMessageHookAddress, (LPVOID)dealSendMessage, OldSendMessageAsmCode);
+    //HookAnyAddress(SendMessageHookAddress, (LPVOID)dealSendMessage, OldSendMessageAsmCode);
     ReceiveMessageHooked = TRUE;
 }
 
@@ -240,6 +245,6 @@ VOID UnHookReceiveMessage()
     if (!ReceiveMessageHooked)
         return;
     UnHookAnyAddress(ReceiveMessageHookAddress, OldReceiveMessageAsmCode);
-    UnHookAnyAddress(SendMessageHookAddress, OldSendMessageAsmCode);
+    //UnHookAnyAddress(SendMessageHookAddress, OldSendMessageAsmCode);
     ReceiveMessageHooked = FALSE;
 }
