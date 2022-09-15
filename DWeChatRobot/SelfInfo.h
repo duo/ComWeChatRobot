@@ -4,6 +4,7 @@
 using namespace std;
 wstring GetSelfInfo();
 wstring GetSelfWxid();
+void DoQRCodeLogin(wstring);
 #ifndef USE_SOCKET
 extern "C" __declspec(dllexport) DWORD GetSelfInfoRemote();
 extern "C" __declspec(dllexport) VOID DeleteSelfInfoCacheRemote();

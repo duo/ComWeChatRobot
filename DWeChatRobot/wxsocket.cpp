@@ -531,6 +531,12 @@ void request_event(mg_http_message *hm, string &ret)
         ret = ret_data.dump();
         break;
     }
+    case WECHAT_QRCODE_LOGIN:
+    {
+        wstring img_path = get_http_param_str(hm, jData, "img_path", method);
+        DoQRCodeLogin(img_path);
+        break;
+    }
     default:
         // char* wxid = mg_json_get_str(hm->body, "$.wxid");
         break;

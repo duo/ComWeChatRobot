@@ -1,11 +1,25 @@
 #include "pch.h"
 #include "json/json.hpp"
 #include <map>
+#include <fstream>
 using namespace nlohmann;
 
 #define CheckLoginOffset 0x2366538
 // 个人WXID偏移
 #define SelfWxidAddrOffset 0x236607C
+
+BOOL SaveQRCodeImageHooked = false;
+
+#define SaveQRCodeImageHookOffset 0x2815DA
+#define SaveQRCodeImageNextCallOffset 0x76F660
+
+char OldSaveQRCodeImageAsmCode[5] = {0};
+static DWORD WeChatWinBase = GetWeChatWinBase();
+static DWORD SaveQRCodeImageHookAddress = WeChatWinBase + SaveQRCodeImageHookOffset;
+static DWORD SaveQRCodeImageNextCall = WeChatWinBase + SaveQRCodeImageNextCallOffset;
+static DWORD SaveQRCodeImageJmpBackAddress = SaveQRCodeImageHookAddress + 0x5;
+
+static wstring QRCODEPATH = L"";
 
 /*
 * 外部调用时的返回类型
@@ -148,6 +162,71 @@ BOOL isWxLogin()
 {
     DWORD CheckLoginAddr = GetWeChatWinBase() + CheckLoginOffset;
     return *(BOOL *)CheckLoginAddr;
+}
+
+VOID SaveQRCodeImage(char *src, int size)
+{
+    std::ofstream out(QRCODEPATH, ios_base::binary);
+    if (out)
+    {
+        out.write(src, size);
+        out.close();
+    }
+}
+
+_declspec(naked) void dealSaveQRCodeImage()
+{
+    __asm {
+        pushad;
+        pushfd;
+        push dword ptr[eax + 4];
+        push dword ptr[eax];
+        call SaveQRCodeImage;
+        add esp, 0x8;
+        popfd;
+        popad;
+        call SaveQRCodeImageNextCall;
+        jmp SaveQRCodeImageJmpBackAddress;
+    }
+}
+
+VOID HookSaveQRCodeImage(wstring path)
+{
+    QRCODEPATH = path;
+    WeChatWinBase = GetWeChatWinBase();
+    if (SaveQRCodeImageHooked || !WeChatWinBase)
+        return;
+    SaveQRCodeImageHookAddress = WeChatWinBase + SaveQRCodeImageHookOffset;
+    SaveQRCodeImageNextCall = WeChatWinBase + SaveQRCodeImageNextCallOffset;
+    SaveQRCodeImageJmpBackAddress = SaveQRCodeImageHookAddress + 0x5;
+    HookAnyAddress(SaveQRCodeImageHookAddress, (LPVOID)dealSaveQRCodeImage, OldSaveQRCodeImageAsmCode);
+    SaveQRCodeImageHooked = TRUE;
+}
+
+VOID UnHookSaveQRCodeImage()
+{
+    QRCODEPATH = L"";
+    if (!SaveQRCodeImageHooked)
+        return;
+    UnHookAnyAddress(SaveQRCodeImageHookAddress, OldSaveQRCodeImageAsmCode);
+    SaveQRCodeImageHooked = FALSE;
+}
+
+void DoQRCodeLogin(wstring path)
+{
+    HookSaveQRCodeImage(path);
+    DWORD dllBaseAddress = GetWeChatWinBase();
+
+    DWORD callAddress1 = dllBaseAddress + 0x372AA0;
+    DWORD callAddress2 = dllBaseAddress + 0x5177D0;
+
+    __asm {
+        pushad;
+        call callAddress1;
+        mov ecx, eax;
+        call callAddress2;
+        popad;
+    }
 }
 
 /*
